@@ -1,0 +1,388 @@
+<!doctype html> 
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diagnóstico Individual</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <header class="top">
+    <div class="tabs">
+      <a href="/" class="tab active">Individual</a>
+      <a href="/lotes" class="tab">Por Lotes</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Diagnóstico Individual</h1>
+      <p class="lead">Rellena los campos principales. Puedes ampliar el formulario para añadir más variables y mejorar la precisión.</p>
+
+      <div class="model-select">
+        <label><input type="radio" name="model" value="logistica" checked> Regresión Logística</label>
+        <label><input type="radio" name="model" value="nn"> Red Neuronal Artificial</label>
+      </div>
+
+      <form id="form">
+        <div class="grid">
+          <div class="field">
+            <label>Edad</label>
+            <input id="age" type="number" min="0"/>
+          </div>
+
+          <div class="field">
+            <label>Sexo</label>
+            <select id="sex">
+              <option value="">Seleccionar...</option>
+              <option value="male">Masculino</option>
+              <option value="female">Femenino</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Temperatura (°C)</label>
+            <input id="body_temperature" type="number" min="0" step="0.1" placeholder="37.0" />
+          </div>
+
+          <div class="field">
+            <label>Hemoglobina (g/dL)</label>
+            <input id="hemoglobin" type="number" min="0" step="0.1" placeholder="14.0" />
+          </div>
+
+          <div class="field">
+            <label>Dolor de cabeza</label>
+            <select id="headache">
+              <option value="">Seleccionar...</option>
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Náuseas</label>
+            <select id="nausea">
+              <option value="">Seleccionar...</option>
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+        <!-- NUEVOS CAMPOS AÑADIDOS DEBAJO DE LOS PRINCIPALES -->
+<div class="field">
+  <label>Origen</label>
+  <select id="origin">
+    <option value="">Seleccionar...</option>
+    <option value="urban">Urbano</option>
+    <option value="rural">Rural</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Ocupación</label>
+  <select id="occupation">
+    <option value="">Seleccionar...</option>
+    <option value="homemaker">Ama de casa</option>
+    <option value="student">Estudiante</option>
+    <option value="professional">Profesional</option>
+    <option value="merchant">Comerciante</option>
+    <option value="agriculture_livestock">Agricultor/Ganadero</option>
+    <option value="various_jobs">Varios oficios</option>
+    <option value="unemployed">Desempleado</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Días de hospitalización</label>
+  <input id="hospitalization_days" type="number" min="0" max="365" placeholder="0" />
+</div>
+<!-- CAMPOS ADICIONALES FALTANTES (ANTES DEL BOTÓN MOSTRAR MÁS VARIABLES) -->
+
+
+<div class="field">
+  <label>Fiebre</label>
+      <select id="fever">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Pérdida del apetito</label>
+      <select id="loss_of_apetite">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Mialgia</label>
+      <select id="myalgias">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Artralgia</label>
+      <select id="arthralgias">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Dolor de ojo</label>
+      <select id="eye_pain">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Hemorragias</label>
+      <select id="hemorrhages">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Vómito</label>
+      <select id="vomiting">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Dolor abdominal</label>
+      <select id="abdominal_pain">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Escalofríos</label>
+      <select id="chills">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Hemoptisis</label>
+      <select id="hemoptysis">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+<div class="field">
+  <label>Edema</label>
+      <select id="edema">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Moretones</label>
+      <select id="bruises">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Petequias</label>
+      <select id="petechiae">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Diarrea</label>
+      <select id="diarrhea">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Dificultad al respirar</label>
+      <select id="respiratory_difficulty">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Hormigueo</label>
+      <select id="itching">
+          <option value="">Seleccionar...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+      </select>
+</div>
+
+<div class="field">
+  <label>Glóbulos rojos (millones/µL)</label>
+  <input id="red_blood_cells" type="number" step="0.01" min="2" max="7" placeholder="4.5" />
+</div>
+
+<div class="field">
+  <label>Neutrófilos (%)</label>
+  <input id="neutrophils" type="number" step="0.1" min="0" max="100" placeholder="55.2" />
+</div>
+
+<div class="field">
+  <label>Eosinófilos (%)</label>
+  <input id="eosinophils" type="number" step="0.1" min="0" max="100" placeholder="0.5" />
+</div>
+
+<div class="field">
+  <label>Basófilos (%)</label>
+  <input id="basophils" type="number" step="0.1" min="0" max="100" placeholder="0.5" />
+</div>
+
+<div class="field">
+  <label>Monocitos (%)</label>
+  <input id="monocytes" type="number" step="0.1" min="0" max="100" placeholder="6" />
+</div>
+
+<div class="field">
+  <label>Linfocitos (%)</label>
+  <input id="lymphocytes" type="number" step="0.1" min="0" max="100" placeholder="30" />
+</div>
+
+<div class="field">
+  <label>AST (SGOT) (U/L)</label>
+  <input id="AST" type="number" min="5" max="40" placeholder="25" />
+</div>
+
+<div class="field">
+  <label>ALT (SGPT) (U/L)</label>
+  <input id="ALT" type="number" min="5" max="45" placeholder="30" />
+</div>
+
+<div class="field">
+  <label>Fosfatasa alcalina (ALP)</label>
+  <input id="ALP" type="number" min="30" max="150" placeholder="80" />
+</div>
+
+<div class="field">
+  <label>Bilirrubina total (mg/dL)</label>
+  <input id="total_bilirubin" type="number" step="0.1" min="0.1" max="2.0" placeholder="1.0" />
+</div>
+
+<div class="field">
+  <label>Bilirrubina directa (mg/dL)</label>
+  <input id="direct_bilirubin" type="number" step="0.1" min="0.0" max="0.5" placeholder="0.3" />
+</div>
+
+<div class="field">
+  <label>Bilirrubina indirecta (mg/dL)</label>
+  <input id="indirect_bilirubin" type="number" step="0.1" min="0.0" max="1.5" placeholder="0.7" />
+</div>
+
+<div class="field">
+  <label>Proteínas totales (g/dL)</label>
+  <input id="total_proteins" type="number" step="0.1" min="5.5" max="8.5" placeholder="7.0" />
+</div>
+
+<div class="field">
+  <label>Albúmina (g/dL)</label>
+  <input id="albumin" type="number" step="0.1" min="3.0" max="5.0" placeholder="4.2" />
+</div>
+
+        <div class="extra-toggle">
+          <button type="button" id="toggle-extra" class="btn-ghost">Mostrar más variables</button>
+        </div>
+
+        <div id="extra" class="extra hidden">
+          <h4>Variables adicionales</h4>
+          <div class="grid">
+            <div class="field">
+             <label>Plaquetas (cél/µL)</label>
+             <input id="platelets" type="number" min="100000" max="450000" placeholder="150000" />
+            </div>
+            <div class="field">
+              <label>Leucocitos</label>
+              <input id="white_blood_cells" type="number" min="4000" max="11000" placeholder="6000" />
+            </div>
+            <div class="field">
+              <label>Hematocrito (%)</label>
+              <input id="hematocrit" type="number" step="0.1" min="0" max="100" placeholder="40.0" />
+            </div>
+            <div class="field">
+              <label>Creatinina (mg/dL)</label>
+              <input id="creatinine" type="number" step="0.01" min="0.5" max="1.5" placeholder="0.9" />
+            </div>
+            <div class="field">
+              <label>Urea (mg/dL)</label>
+              <input id="urea" type="number" step="0.1" min="15" max="50" placeholder="30.0" />
+            </div>
+            <div class="field">
+              <label>Ictericia</label>
+              <select id="jaundice"><option value="">--</option><option value="Sí">Sí</option><option value="No">No</option></select>
+            </div>
+            <div class="field">
+              <label>Erupción</label>
+              <select id="rash"><option value="">--</option><option value="Sí">Sí</option><option value="No">No</option></select>
+            </div>
+            <div class="field">
+              <label>Debilidad</label>
+              <select id="weakness"><option value="">--</option><option value="Sí">Sí</option><option value="No">No</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="btn-predict" class="btn-primary">Realizar Diagnóstico</button>
+          <button type="button" id="btn-clear" class="btn-secondary">Borrar Todo</button>
+        </div>
+      </form>
+
+      <section id="result" class="result hidden">
+        <h3>Resultado del Diagnóstico</h3>
+        <p><strong>Modelo utilizado:</strong> <span id="res-model"></span></p>
+        <p><strong>Diagnóstico:</strong> <span id="res-diagnosis"></span></p>
+        <p><strong>Probabilidad:</strong> <span id="res-confidence"></span>%</p>
+        <hr />
+        <div id="res-inputs"></div>
+      </section>
+    </section>
+  </main>
+  <script>
+  // Evita escribir o pegar números negativos en todos los inputs numéricos
+  document.querySelectorAll('#form input[type="number"]').forEach(input => {
+    input.addEventListener('keydown', e => {
+      if (e.key === '-') e.preventDefault();
+    });
+    input.addEventListener('paste', e => {
+      const paste = (e.clipboardData || window.clipboardData).getData('text');
+      if (parseFloat(paste) < 0) e.preventDefault();
+    });
+  });
+</script>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

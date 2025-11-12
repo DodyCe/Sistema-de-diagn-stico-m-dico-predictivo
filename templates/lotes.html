@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diagnóstico por Lotes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+
+<body>
+  <header class="top">
+    <div class="tabs">
+      <a href="/" class="tab">Individual</a>
+      <a href="/lotes" class="tab active">Por Lotes</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Diagnóstico por Lotes</h1>
+      <p>Aquí podrás subir archivos para entrenar y analizar cualquier dataset.</p>
+
+      {% if not columns %}
+      <!-- 📂 Fase 1: Subir dataset -->
+      <form action="/upload_dataset" method="POST" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="file" accept=".csv, .xlsx" required />
+        <button type="submit">Subir Dataset</button>
+      </form>
+      {% endif %}
+
+      {% if columns %}
+      <!-- ⚙️ Fase 2: Seleccionar columna objetivo y modelo -->
+      <form action="/train_batch" method="POST">
+        <input type="hidden" name="file_path" value="{{ file_path }}" />
+
+        <label for="target">Selecciona la columna objetivo:</label>
+        <select name="target" id="target" required>
+          {% for col in columns %}
+          <option value="{{ col }}">{{ col }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="model_type">Selecciona el modelo:</label>
+        <select name="model_type" id="model_type" required>
+          <option value="logistic">Regresión Logística</option>
+          <option value="nn">Red Neuronal</option>
+        </select>
+
+        <button type="submit">Entrenar y Analizar</button>
+      </form>
+      {% endif %}
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+    </section>
+
+    {% if cm_img %}
+    <section class="card results">
+      <h2>Resultados del Modelo: {{ model_name }}</h2>
+
+      <h3>Matriz de Confusión</h3>
+      <img src="data:image/png;base64,{{ cm_img }}" alt="Matriz de Confusión" 
+           style="max-width:100%; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2);" />
+
+      <h3>Métricas</h3>
+      <pre>{{ report }}</pre>
+
+      <p><em>Evaluadas {{ n_samples }} muestras (validación cruzada).</em></p>
+
+      {% if pdf_path %}
+      <div style="margin-top:20px;">
+        <a href="{{ url_for('download_pdf', path=pdf_path) }}" 
+           class="button"
+           style="display:inline-block; padding:10px 20px; background-color:#007BFF; color:white; border-radius:5px; text-decoration:none;">
+          📄 Descargar Reporte en PDF
+        </a>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
