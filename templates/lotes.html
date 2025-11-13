@@ -23,7 +23,7 @@
       <p>Aquí podrás subir archivos para entrenar y analizar cualquier dataset.</p>
 
       {% if not columns %}
-      <!-- 📂 Fase 1: Subir dataset -->
+  
       <form action="/upload_dataset" method="POST" enctype="multipart/form-data" class="upload-form">
         <input type="file" name="file" accept=".csv, .xlsx" required />
         <button type="submit">Subir Dataset</button>

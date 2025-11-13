@@ -63,3 +63,8 @@ h1{margin:0 0 8px}
   border-radius:var(--radius);
   box-shadow:0 8px 30px rgba(3,13,26,0.06);
 }
+.container-titulo p{
+  text-align:center;
+  font-size:18px;
+  color:var(--muted);
+}
